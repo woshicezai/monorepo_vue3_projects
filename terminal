@@ -1,0 +1,8 @@
+mkdir vue3-monorepo
+cd vue3-monorepo
+pnpm init
+mkdir -p src/shared/utils
+pnpm changeset init
+
+cd src
+mkdir pkg_admin pkg_mobile pkg_web pkg_docs
