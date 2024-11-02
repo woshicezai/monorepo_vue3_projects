@@ -7,12 +7,13 @@
     "postinstall": "pnpm update-scripts",
     "dev:list": "pnpm --filter pkg_list dev",
     "build:list": "pnpm --filter pkg_list build",
-    "dev:money": "pnpm --filter pkg_money dev",
-    "build:money": "pnpm --filter pkg_money build"
+    "dev:vxt_table": "pnpm --filter pkg_vxt_table dev",
+    "build:vxt_table": "pnpm --filter pkg_vxt_table build"
   },
   "dependencies": {
     "vue": "^3.4.0",
-    "pinia": "^2.1.0"
+    "pinia": "^2.1.0",
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "typescript": "~5.3.0",

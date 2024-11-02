@@ -6,7 +6,6 @@
     "build": "vue-tsc --noEmit && vite build"
   },
   "dependencies": {
-    "lodash-es": "^4.17.21",
     "pinia": "^2.1.0",
     "vue": "^3.4.0"
   },

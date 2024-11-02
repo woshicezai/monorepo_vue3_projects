@@ -1,5 +1,5 @@
 {
-  "name": "pkg_money",
+  "name": "pkg_vxt_table",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
