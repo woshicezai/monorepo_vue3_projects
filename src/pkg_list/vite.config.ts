@@ -1,16 +1,12 @@
 import { defineConfig, mergeConfig } from "vite";
 import baseConfig from "../../vite.config.base";
+import path from 'path';
 
 export default defineConfig((configEnv) => {
   const config = {
-    // 子项目特定配置
     server: {
-      port: 3001, // 覆盖基础配置的端口
+      port: 3006,
     },
-    build: {
-      outDir: "dist",
-    },
-    // 其他特定配置...
   };
 
   return mergeConfig(baseConfig, config);

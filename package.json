@@ -4,13 +4,9 @@
   "private": true,
   "scripts": {
     "update-scripts": "tsx scripts/update-scripts.ts",
-    "postinstall": "pnpm update-scripts",
-    "dev:admin": "pnpm --filter pkg_admin dev",
-    "build:admin": "pnpm --filter pkg_admin build",
-    "dev:docs": "pnpm --filter pkg_docs dev",
-    "build:docs": "pnpm --filter pkg_docs build",
-    "dev:mobile": "pnpm --filter pkg_mobile dev",
-    "build:mobile": "pnpm --filter pkg_mobile build",
+    "postinstall": "tsx tsconfig.base.ts && pnpm update-scripts",
+    "dev:list": "pnpm --filter pkg_list dev",
+    "build:list": "pnpm --filter pkg_list build",
     "dev:money": "pnpm --filter pkg_money dev",
     "build:money": "pnpm --filter pkg_money build"
   },

@@ -1,5 +1,9 @@
 import fs from 'fs'
 import path from 'path'
+/**
+ * 当运行 pnpm install 时，会自动更新 package.json 中的 scripts命令
+ * 将src下的项目以 pkg_ 开头的项目的 启动和构建命令添加到 package.json 中
+ */
 
 // 读取 src 目录
 const srcPath = path.join(process.cwd(), 'src')

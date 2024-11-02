@@ -1,38 +1,30 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import path from "path";
+import path from 'path';
 
-// 通用配置
 export default defineConfig({
   plugins: [vue()],
+  base: './',
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@utils": path.resolve(__dirname, "./src/utils"),
-      "@libs": path.resolve(__dirname, "./src/libs"),
-    },
+      '@root': path.resolve(__dirname, 'src'),
+      '@local': path.resolve(process.cwd(), 'src'),
+    }
   },
   build: {
-    // 通用构建配置
-    target: "es2015",
+    target: 'es2015',
+    outDir: "dist",
     minify: "terser",
     cssCodeSplit: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          "vue-vendor": ["vue", "pinia"],
-        },
         chunkFileNames: "assets/js/[name]-[hash].js",
         entryFileNames: "assets/js/[name]-[hash].js",
         assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
+        manualChunks: {
+          "vue-vendor": ["vue", "pinia"],
+        },
       },
     },
   },
-  // 通用开发服务器配置
-  server: {
-    port: 3000,
-    cors: true,
-    open: true,
-  },
-  base: './',
 });
