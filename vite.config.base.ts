@@ -15,6 +15,7 @@ export default defineConfig({
     alias: {
       '@root': path.resolve(__dirname, 'src'),
       '@local': path.resolve(process.cwd(), 'src'),
+      'vue': 'vue/dist/vue.esm-bundler.js'
     }
   },
   build: {
