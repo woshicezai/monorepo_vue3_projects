@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "update-scripts": "tsx scripts/update-scripts.ts",
-    "postinstall": "tsx tsconfig.base.ts && pnpm update-scripts",
+    "postinstall": "pnpm update-scripts",
     "dev:list": "pnpm --filter pkg_list dev",
     "build:list": "pnpm --filter pkg_list build",
     "dev:money": "pnpm --filter pkg_money dev",
