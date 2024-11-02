@@ -1,8 +1,7 @@
 import { defineConfig, mergeConfig } from "vite";
 import baseConfig from "../../vite.config.base";
-import path from 'path';
 
-export default defineConfig((configEnv) => {
+export default defineConfig(() => {
   const config = {
     server: {
       port: 3006,
