@@ -1,9 +1,12 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig, mergeConfig } from 'vite'
+import baseConfig from '../../vite.config.base'
 
-export default defineConfig({
-  plugins: [vue()],
-  server: {
-    port: 3003
+export default defineConfig((configEnv) => {
+  const config = {
+    server: {
+      port: 3005
+    }
   }
+
+  return mergeConfig(baseConfig, config)
 }) 

@@ -11,8 +11,8 @@
     "build:docs": "pnpm --filter pkg_docs build",
     "dev:mobile": "pnpm --filter pkg_mobile dev",
     "build:mobile": "pnpm --filter pkg_mobile build",
-    "dev:web": "pnpm --filter pkg_web dev",
-    "build:web": "pnpm --filter pkg_web build"
+    "dev:money": "pnpm --filter pkg_money dev",
+    "build:money": "pnpm --filter pkg_money build"
   },
   "dependencies": {
     "vue": "^3.4.0",

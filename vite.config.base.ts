@@ -22,6 +22,9 @@ export default defineConfig({
         manualChunks: {
           "vue-vendor": ["vue", "pinia"],
         },
+        chunkFileNames: "assets/js/[name]-[hash].js",
+        entryFileNames: "assets/js/[name]-[hash].js",
+        assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
       },
     },
   },
@@ -31,4 +34,5 @@ export default defineConfig({
     cors: true,
     open: true,
   },
+  base: './',
 });
