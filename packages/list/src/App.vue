@@ -8,6 +8,7 @@
 <script setup>
 import { ref } from 'vue';
 import VirtualList from '@root/components/virtual-list/index.vue';
+import {getTime} from '@/utils/getTime'
 
 const columns = ref([
   { key: 'id', title: '序号', fixed: false,width: 100 },
@@ -24,6 +25,7 @@ const columns = ref([
 
 const handleSort = (key, column) => {
   console.log('zhouce handleSort', key, column);
+  getTime()
 };
 
 const fetchData = async (page, perPage) => {

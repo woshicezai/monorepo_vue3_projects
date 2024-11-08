@@ -1,5 +1,12 @@
 <template>
   <div>
+    <vxe-toolbar>
+      <template #buttons>
+        <vxe-button @click="hideColEvent('id')">隐藏id</vxe-button>
+        <vxe-button @click="showColEvent('id')">显示id</vxe-button>
+        <vxe-button @click="resetColEvent">重置</vxe-button>
+      </template>
+    </vxe-toolbar>
     <vxe-table
       ref="xTable"
       border
@@ -10,7 +17,8 @@
       @scroll="handleScroll"
       :scroll-y="{
         enabled: true,
-        gt: 100
+        gt: 200,
+        oSize: 100
       }"
       >
       <vxe-column type="seq" width="60" fixed="left"></vxe-column>
@@ -26,6 +34,7 @@
 <script setup>
 import { ref,onMounted} from 'vue'
 import { debounce } from 'lodash-es'
+import { createWebSocket } from '@/utils/websocket/index.ts'
 
 const xTable = ref(null);
 const isLoading = ref(false);
@@ -34,11 +43,46 @@ const page = ref(0)
 const list = ref([])
 const loadTriggerDistance = 1000
 
+
+const initWebSocket = () => {
+  const ws = createWebSocket({
+    url: 'ws://localhost:8080',
+    heartbeatInterval: 10000,
+    bufferTimeout: 10000,
+    bufferSize: 10,
+    onStatusChange: (status) => {
+      console.log('zhouce ws status', status)
+      if(status){
+        ws.send('ready')
+      }
+    },
+    onError: (error) => {
+      console.log('zhouce ws error', error)
+    }
+  })
+  ws.subscribe(handleWsData)
+  ws.connect()
+}
+
+/**
+ * 处理ws数据
+ * @param data 
+ */
+const handleWsData = (data) => {
+  console.log('zhouce ws', data)
+  
+}
+
+
+onMounted(async () => {
+  initWebSocket()
+  list.value = await fetchData(page.value, perPage);
+})
+
 const fetchMore = async (event) => {
   if (event.type === 'body' && !isLoading.value) {
     const bodyHeight = event.bodyHeight
     const scrollTop = event.scrollTop
-    console.log('zhouce handleScroll', bodyHeight, scrollTop,bodyHeight - scrollTop);
     if(bodyHeight - scrollTop < loadTriggerDistance){
       list.value = [...list.value, ...(await fetchData(page.value, perPage))];
       page.value += 1;
@@ -73,7 +117,16 @@ const fetchData = async (page, perPage) => {
   });
 };
 
-onMounted(async () => {
-  list.value = await fetchData(page.value, perPage);
-})
+const hideColEvent = (field) => {
+  xTable.value.hideColumn(field)
+}
+
+const showColEvent = (field) => {
+  xTable.value.showColumn(field)
+} 
+
+const resetColEvent = () => {
+  xTable.value.resetColumn()
+}
+
 </script>

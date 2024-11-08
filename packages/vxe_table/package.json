@@ -1,5 +1,5 @@
 {
-  "name": "pkg_vxt_table",
+  "name": "vxe_table",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",

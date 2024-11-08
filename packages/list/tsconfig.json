@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../../",
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@root/*": ["../../src/*"],
+      "@/*": ["./src/*"]
+    },
+  },
+  "include": [
+    "../../src/**/*", // 包含根目录的代码
+    "src/**/*"
+  ],
+} 

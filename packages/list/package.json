@@ -1,5 +1,5 @@
 {
-  "name": "pkg_list",
+  "name": "list",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",

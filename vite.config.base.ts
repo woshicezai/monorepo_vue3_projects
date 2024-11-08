@@ -16,11 +16,11 @@ export default defineConfig({
   resolve: {
     alias: {
       "@root": path.resolve(__dirname, "src"),
-      "@local": path.resolve(process.cwd(), "src"),
+      "@": path.resolve(process.cwd(), "src"),
     },
   },
   build: {
-    target: "es2015",
+    target: "es2020",
     // 设置输出目录为根目录的 dist/项目名
     outDir: path.resolve(__dirname, `dist/${getProjectName()}`),
     minify: "terser",

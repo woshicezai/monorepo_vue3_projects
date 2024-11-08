@@ -1,4 +1,5 @@
 // ...
+import type { App } from "vue";
 import {
   // 全局实例对象
   VXETable,
@@ -19,7 +20,7 @@ import {
   VxeColgroup,
   // VxeGrid,
   // VxeTooltip,
-  // VxeToolbar,
+  VxeToolbar,
   // VxePager,
   // VxeForm,
   // VxeFormItem,
@@ -35,7 +36,7 @@ import {
   // VxeOptgroup,
   // VxeOption,
   // VxeTextarea,
-  // VxeButton,
+  VxeButton,
   // VxeButtonGroup,
   // VxeModal,
   // VxeDrawer,
@@ -45,13 +46,13 @@ import {
 // ...
 
 // 导入默认的语言
-import zhCN from "vxe-table/es/locale/lang/zh-CN";
+// import zhCN from "vxe-table/es/locale/lang/zh-CN";
 
 // 导入主题变量，也可以重写主题变量
 import "vxe-table/styles/cssvar.scss";
 
 
-export default function LazyVxeUITable(app) {
+export default function LazyVxeUITable(app: App) {
   // 可选表格模块
   // app.use(VxeTableFilterModule)
   // app.use(VxeTableEditModule)
@@ -68,7 +69,7 @@ export default function LazyVxeUITable(app) {
   app.use(VxeColgroup);
   // app.use(VxeVxeGrid)
   // app.use(VxeTooltip)
-  // app.use(VxeToolbar)
+  app.use(VxeToolbar)
   // app.use(VxePager)
   // app.use(VxeForm)
   // app.use(VxeFormItem)
@@ -84,7 +85,7 @@ export default function LazyVxeUITable(app) {
   // app.use(VxeOptgroup)
   // app.use(VxeOption)
   // app.use(VxeTextarea)
-  // app.use(VxeButton)
+  app.use(VxeButton)
   // app.use(VxeButtonGroup)
   // app.use(VxeModal)
   // app.use(VxeDrawer)

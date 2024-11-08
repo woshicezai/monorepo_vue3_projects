@@ -5,10 +5,10 @@
   "scripts": {
     "update-scripts": "tsx scripts/update-scripts.ts",
     "postinstall": "pnpm update-scripts",
-    "dev:list": "pnpm --filter pkg_list dev",
-    "build:list": "pnpm --filter pkg_list build",
-    "dev:vxt_table": "pnpm --filter pkg_vxt_table dev",
-    "build:vxt_table": "pnpm --filter pkg_vxt_table build"
+    "dev:list": "pnpm --filter list dev",
+    "build:list": "pnpm --filter list build",
+    "dev:vxe_table": "pnpm --filter vxe_table dev",
+    "build:vxe_table": "pnpm --filter vxe_table build"
   },
   "dependencies": {
     "lodash-es": "^4.17.21",

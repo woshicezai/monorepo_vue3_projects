@@ -46,7 +46,7 @@ importers:
         specifier: ^1.8.27
         version: 1.8.27(typescript@5.3.3)
 
-  src/pkg_list:
+  packages/list:
     dependencies:
       pinia:
         specifier: ^2.1.0
@@ -68,7 +68,7 @@ importers:
         specifier: ^1.8.27
         version: 1.8.27(typescript@5.3.3)
 
-  src/pkg_vxt_table:
+  packages/vxe_table:
     dependencies:
       pinia:
         specifier: ^2.1.0
