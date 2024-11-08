@@ -10,11 +10,10 @@ const srcPath = path.join(process.cwd(), 'packages')
 const rootPackageJsonPath = path.join(process.cwd(), 'package.json')
 
 // 获取所有packages目录下的子项目
-const projects = fs.readdirSync(srcPath)
-  .filter(file => {
-    const stats = fs.statSync(path.join(srcPath, file))
-    return stats.isDirectory()
-  })
+const projects = fs.readdirSync(srcPath).filter(file => {
+  const stats = fs.statSync(path.join(srcPath, file))
+  return stats.isDirectory()
+})
 
 // 更新 package.json
 const packageJson = JSON.parse(fs.readFileSync(rootPackageJsonPath, 'utf-8'))
@@ -38,9 +37,6 @@ projects.forEach(project => {
 })
 
 // 写回 package.json
-fs.writeFileSync(
-  rootPackageJsonPath,
-  JSON.stringify(packageJson, null, 2) + '\n'
-)
+fs.writeFileSync(rootPackageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
 
-console.log('Scripts updated successfully!') 
+console.log('Scripts updated successfully!')

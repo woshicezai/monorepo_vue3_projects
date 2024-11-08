@@ -1,12 +1,12 @@
 interface WebSocketOptions {
   url: string
-  heartbeatMode?: 'active' | 'passive'  // 心跳模式：主动发送ping或被动接收ping，默认active（主动）
-  heartbeatInterval?: number            // 心跳间隔，默认 30s
-  heartbeatTimeout?: number            // 心跳超时时间，默认 5s
-  reconnectInterval?: number           // 重连间隔，默认 5s
-  reconnectTimes?: number              // 最大重连次数，默认 5次
-  bufferSize?: number                  // 缓冲池大小，默认 1000条
-  bufferTimeout?: number               // 缓冲池清空间隔，默认 1s
+  heartbeatMode?: 'active' | 'passive' // 心跳模式：主动发送ping或被动接收ping，默认active（主动）
+  heartbeatInterval?: number // 心跳间隔，默认 30s
+  heartbeatTimeout?: number // 心跳超时时间，默认 5s
+  reconnectInterval?: number // 重连间隔，默认 5s
+  reconnectTimes?: number // 最大重连次数，默认 5次
+  bufferSize?: number // 缓冲池大小，默认 1000条
+  bufferTimeout?: number // 缓冲池清空间隔，默认 1s
   onStatusChange?: (connected: boolean) => void
   onError?: (error: Error) => void
 }
@@ -44,7 +44,7 @@ export class WebSocketClient<T = any> {
       bufferTimeout: 1000,
       onStatusChange: () => {},
       onError: () => {},
-      ...options
+      ...options,
     }
     this.startBufferProcessor()
   }
@@ -126,7 +126,7 @@ export class WebSocketClient<T = any> {
   private handleError(event: Event): void {
     const error = new Error('WebSocket error')
     this.options.onError?.(error)
-  /*   this.isConnected = false
+    /*   this.isConnected = false
     this.options.onStatusChange?.(false)
     this.cleanup()
     this.reconnect() */
@@ -158,7 +158,7 @@ export class WebSocketClient<T = any> {
     if (this.heartbeatTimeoutTimer) {
       clearTimeout(this.heartbeatTimeoutTimer)
     }
-    if(this.options.heartbeatMode === 'passive') {
+    if (this.options.heartbeatMode === 'passive') {
       this.startHeartbeatTimeout()
     }
   }
@@ -196,7 +196,7 @@ export class WebSocketClient<T = any> {
   private addToBuffer(data: T): void {
     this.messageBuffer.push({
       timestamp: Date.now(),
-      data
+      data,
     })
 
     // 如果缓冲区超过最大大小，立即处理
@@ -210,20 +210,19 @@ export class WebSocketClient<T = any> {
 
     const messages = this.messageBuffer.map(item => item.data)
     this.messageBuffer = [] // 清空缓冲池
-    
+
     // 通知所有订阅者
     this.notifySubscribers(messages)
   }
 
   private reconnect(): void {
-    if (
-      this.isConnecting || 
-      this.reconnectCount >= this.options.reconnectTimes
-    ) return
+    if (this.isConnecting || this.reconnectCount >= this.options.reconnectTimes) return
 
     this.reconnectCount++
-    console.log(`Attempting to reconnect... (${this.reconnectCount}/${this.options.reconnectTimes})`)
-    
+    console.log(
+      `Attempting to reconnect... (${this.reconnectCount}/${this.options.reconnectTimes})`
+    )
+
     setTimeout(() => {
       this.connect()
     }, this.options.reconnectInterval)

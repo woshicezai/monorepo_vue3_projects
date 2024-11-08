@@ -1,3 +1,3 @@
 export const getTime = () => {
-  return new Date().toLocaleString();
-};
+  return new Date().toLocaleString()
+}

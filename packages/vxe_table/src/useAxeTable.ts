@@ -1,5 +1,5 @@
 // ...
-import type { App } from "vue";
+import type { App } from 'vue'
 import {
   // 全局实例对象
   VXETable,
@@ -42,15 +42,14 @@ import {
   // VxeDrawer,
   // VxeList,
   // VxePulldown
-} from "vxe-table";
+} from 'vxe-table'
 // ...
 
 // 导入默认的语言
 // import zhCN from "vxe-table/es/locale/lang/zh-CN";
 
 // 导入主题变量，也可以重写主题变量
-import "vxe-table/styles/cssvar.scss";
-
+import 'vxe-table/styles/cssvar.scss'
 
 export default function LazyVxeUITable(app: App) {
   // 可选表格模块
@@ -63,10 +62,10 @@ export default function LazyVxeUITable(app: App) {
   // app.use(VxeTableCustomModule)
 
   // 可选组件
-  app.use(VxeIcon);
-  app.use(VxeTable);
-  app.use(VxeColumn);
-  app.use(VxeColgroup);
+  app.use(VxeIcon)
+  app.use(VxeTable)
+  app.use(VxeColumn)
+  app.use(VxeColgroup)
   // app.use(VxeVxeGrid)
   // app.use(VxeTooltip)
   app.use(VxeToolbar)

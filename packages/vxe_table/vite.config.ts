@@ -5,7 +5,7 @@ import { lazyImport, VxeResolver } from 'vite-plugin-lazy-import'
 export default defineConfig(() => {
   const config = {
     server: {
-      port: 3005
+      port: 3005,
     },
     plugins: [
       lazyImport({
@@ -14,4 +14,4 @@ export default defineConfig(() => {
     ],
   }
   return mergeConfig(baseConfig, config)
-}) 
+})

@@ -5,4 +5,4 @@ import LazyVxeUITable from './useAxeTable'
 const app = createApp(App)
 app.use(createPinia())
 app.use(LazyVxeUITable)
-app.mount('#app') 
+app.mount('#app')

@@ -6,6 +6,6 @@ export default defineConfig(() => {
     server: {
       port: 3006,
     },
-  };
-  return mergeConfig(baseConfig, config);
-});
+  }
+  return mergeConfig(baseConfig, config)
+})
