@@ -102,6 +102,7 @@ const visibleItems = computed(() => {
   const visibleCount = Math.ceil(window.innerHeight / props.rowHeight) + buffer * 2
   const newStart = Math.max(0, start.value - buffer)
   const newEnd = Math.min(items.value.length, start.value + visibleCount)
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   offset.value = newStart * props.rowHeight
   return items.value.slice(newStart, newEnd)
 })

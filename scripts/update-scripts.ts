@@ -1,13 +1,13 @@
 /**
- * 监听 packages 目录的变化，更新 package.json 中的 scripts
+ * 遍历 packages 目录下的所有子项目
+ * 更新 package.json 中的 scripts
  * 自动创建 lint、format、predev、dev、build 脚本
  */
 
 import fs from 'fs'
 import path from 'path'
-import chokidar from 'chokidar'
 
-function updateScripts() {
+export function updateScripts() {
   // 读取 src 目录
   const srcPath = path.join(process.cwd(), 'packages')
   const rootPackageJsonPath = path.join(process.cwd(), 'package.json')
@@ -56,34 +56,3 @@ function updateScripts() {
 
 // 首次运行
 updateScripts()
-
-// 监听 packages 目录的变化
-const watcher = chokidar.watch(path.join(process.cwd(), 'packages'), {
-  depth: 0, // 只监听一级目录
-  ignoreInitial: true, // 忽略首次运行时的 add 事件
-  persistent: true, // 持续监听
-})
-
-// 监听目录的添加、删除和重命名事件
-watcher
-  .on('addDir', (path: string) => {
-    // 忽略 packages 目录本身
-    if (path !== process.cwd() + '/packages') {
-      console.log(`Directory ${path} has been added`)
-      updateScripts()
-    }
-  })
-  .on('unlinkDir', (path: string) => {
-    console.log(`Directory ${path} has been removed`)
-    updateScripts()
-  })
-  .on('ready', () => {
-    console.log('Initial scan complete. Ready for changes')
-  })
-  .on('error', (error: Error) => console.error('Error happened', error))
-
-// 处理进程退出
-process.on('SIGINT', () => {
-  watcher.close()
-  process.exit(0)
-})

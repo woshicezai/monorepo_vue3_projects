@@ -13,7 +13,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import VirtualList from '@root/components/virtual-list/index.vue'
+import VirtualList from '@root/components/VirtualList/index.vue'
 import { getTime } from '@/utils/getTime'
 
 const columns = ref([
