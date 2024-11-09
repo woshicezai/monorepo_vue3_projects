@@ -17,7 +17,7 @@
       :scroll-y="{
         enabled: true,
         gt: 200,
-        oSize: 100,
+        // oSize: 50,
       }"
       @scroll="handleScroll"
     >
@@ -34,14 +34,17 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { debounce } from 'lodash-es'
-import { createWebSocket } from '@/utils/websocket/index.ts'
+import { createWebSocket } from '@root/utils/websocket/index.ts'
 
 const xTable = ref(null)
 const isLoading = ref(false)
-const perPage = 200
+const perPage = 100
 const page = ref(0)
 const list = ref([])
 const loadTriggerDistance = 1000
+
+const filterList = Array.from({ length: 1000 }, () => Math.floor(Math.random() * 1000))
+const wsList = ref([])
 
 const initWebSocket = () => {
   const ws = createWebSocket({
@@ -68,7 +71,19 @@ const initWebSocket = () => {
  * @param data
  */
 const handleWsData = data => {
-  console.log('zhouce ws', data)
+  wsList.value = data.filter(item => {
+    return filterList.includes(item.id)
+  })
+  console.log('zhouce 推送命中了池子的个数', wsList.value.length)
+  wsList.value.forEach(wsItem => {
+    const foundIndex = list.value.findIndex(item => item.id === wsItem.id)
+    if (foundIndex !== -1) {
+      list.value[foundIndex] = wsItem
+    } else {
+      list.value.push(wsItem)
+    }
+  })
+  list.value.sort((a, b) => a.amount - b.amount)
 }
 
 onMounted(async () => {
@@ -100,14 +115,15 @@ const fetchData = async (page, perPage) => {
   return new Promise(resolve => {
     setTimeout(() => {
       const data = Array.from({ length: perPage }, (_, i) => ({
-        id: page * perPage + i + 1,
+        // id: page * perPage + i + 1,
+        id: page * perPage + Math.floor(Math.random() * perPage),
         code: (page * perPage + i + 1).toString().padStart(6, '0'),
         name: `股票${page * perPage + i + 1}`,
         price: (Math.random() * 100).toFixed(2),
         change: (Math.random() * 10 - 5).toFixed(2),
-        amount: `${(Math.random() * 10000).toFixed(2)}亿`,
+        amount: page * perPage + i + 1 + `${(Math.random() * 10000).toFixed(5)}`,
       }))
-      resolve(data)
+      resolve(data.sort((a, b) => a.amount - b.amount))
     }, 500)
   }).finally(() => {
     isLoading.value = false

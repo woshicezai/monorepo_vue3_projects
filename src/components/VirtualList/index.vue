@@ -23,9 +23,9 @@
         </thead>
         <tbody>
           <!-- 渲染可见的行 -->
-          <tr v-for="item in visibleItems" :key="item.id">
+          <tr v-for="(item, index) in visibleItems" :key="index">
             <td v-for="column in visibleColumns" :key="column.key">
-              {{ item[column.key] }}
+              {{ column.key === 'seq' ? index + listStart + 1 : item[column.key] }}
             </td>
           </tr>
         </tbody>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed, defineExpose } from 'vue'
 import { debounce } from 'lodash-es'
 
 // 定义属性
@@ -56,7 +56,7 @@ const props = defineProps({
   },
 })
 
-const items = ref([]) // 存储所有加载的项目
+const list = ref([]) // 存储所有加载的项目
 const totalHeight = ref(0) // 整个列表的模拟高度
 const buffer = 5 // 缓冲行数，用于增加渲染的行数
 const page = ref(0) // 当前加载的页数
@@ -76,10 +76,10 @@ const loadMore = async () => {
   if (isLoading.value) return // 如果正在加载则不执行
   isLoading.value = true
   try {
-    const newItems = await props.fetchData(page.value, props.perPage)
-    items.value = [...items.value, ...newItems]
+    const newList = await props.fetchData(page.value, props.perPage)
+    list.value = [...list.value, ...newList]
     page.value += 1
-    totalHeight.value = items.value.length * props.rowHeight
+    totalHeight.value = list.value.length * props.rowHeight
   } finally {
     isLoading.value = false
   }
@@ -95,16 +95,19 @@ const toggleSort = key => {
 }
 
 const start = ref(0) // 当前可见区域的起始索引
+const listStart = ref(0) // 当前可见区域的起始索引
 const offset = ref(0) // 列表偏移，用于设置 transform
 
 // 计算可见的项目
 const visibleItems = computed(() => {
   const visibleCount = Math.ceil(window.innerHeight / props.rowHeight) + buffer * 2
   const newStart = Math.max(0, start.value - buffer)
-  const newEnd = Math.min(items.value.length, start.value + visibleCount)
+  const newEnd = Math.min(list.value.length, start.value + visibleCount)
   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   offset.value = newStart * props.rowHeight
-  return items.value.slice(newStart, newEnd)
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+  listStart.value = newStart
+  return list.value.slice(newStart, newEnd)
 })
 
 const handleScroll = event => {
@@ -127,6 +130,10 @@ const onScroll = debounce(handleScroll, 100, {
 // 组件挂载时加载初始数据
 onMounted(() => {
   loadMore()
+})
+
+defineExpose({
+  list,
 })
 </script>
 
