@@ -31,7 +31,7 @@ const columns = ref([
 
 const handleSort = (key, column) => {
   console.log('zhouce handleSort', key, column)
-  // getTime()
+  getTime()
 }
 
 const fetchData = async (page, perPage) => {
