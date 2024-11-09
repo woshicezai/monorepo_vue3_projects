@@ -4,15 +4,14 @@
   "private": true,
   "scripts": {
     "update-scripts": "tsx scripts/update-scripts.ts",
-    "postinstall": "pnpm update-scripts",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "format": "prettier --write \"**/*.{vue,ts,tsx,js,jsx,json,md}\"",
     "prepare": "husky install",
-    "lint:list": "eslint \"packages/list/**/*.{vue,js,jsx,ts,tsx}\" --fix",
-    "format:list": "prettier --write \"packages/list**/*.{vue,ts,tsx,js,jsx,json,md}\"",
-    "predev:list": "pnpm lint:list && pnpm format:list",
-    "dev:list": "pnpm --filter list dev",
-    "build:list": "pnpm --filter list build",
+    "lint:virtual_list": "eslint \"packages/virtual_list/**/*.{vue,js,jsx,ts,tsx}\" --fix",
+    "format:virtual_list": "prettier --write \"packages/virtual_list**/*.{vue,ts,tsx,js,jsx,json,md}\"",
+    "predev:virtual_list": "pnpm lint:virtual_list && pnpm format:virtual_list",
+    "dev:virtual_list": "pnpm --filter virtual_list dev",
+    "build:virtual_list": "pnpm --filter virtual_list build",
     "lint:vxe_table": "eslint \"packages/vxe_table/**/*.{vue,js,jsx,ts,tsx}\" --fix",
     "format:vxe_table": "prettier --write \"packages/vxe_table**/*.{vue,ts,tsx,js,jsx,json,md}\"",
     "predev:vxe_table": "pnpm lint:vxe_table && pnpm format:vxe_table",
@@ -43,7 +42,8 @@
     "vite": "^5.0.0",
     "vue-tsc": "^1.8.27",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2"
+    "lint-staged": "^15.2.2",
+    "chokidar": "^3.6.0"
   },
   "lint-staged": {
     "*.{vue,js,jsx,ts,tsx}": [

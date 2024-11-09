@@ -1,5 +1,5 @@
 {
-  "name": "list",
+  "name": "virtual_list",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
