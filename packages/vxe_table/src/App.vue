@@ -74,6 +74,7 @@ const handleWsData = data => {
 onMounted(async () => {
   initWebSocket()
   list.value = await fetchData(page.value, perPage)
+  page.value += 1
 })
 
 const fetchMore = async event => {
@@ -97,7 +98,6 @@ const fetchData = async (page, perPage) => {
   isLoading.value = true
   // 模拟 API 请求
   return new Promise(resolve => {
-    console.log('zhouce fetchData', page, perPage)
     setTimeout(() => {
       const data = Array.from({ length: perPage }, (_, i) => ({
         id: page * perPage + i + 1,

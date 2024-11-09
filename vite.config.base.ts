@@ -18,7 +18,7 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'es2020',
+    target: 'ES2020',
     // 设置输出目录为根目录的 dist/项目名
     outDir: path.resolve(__dirname, `dist/${getProjectName()}`),
     minify: 'terser',
