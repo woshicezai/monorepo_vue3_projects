@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 /**
  * 当运行 pnpm install 时，会自动更新 package.json 中的 scripts命令
- * 将src下的项目以 pkg_ 开头的项目的 启动和构建命令添加到 package.json 中
+ * 将packages下的所有项目的启动和构建命令添加到 package.json 中
  */
 
 // 读取 src 目录
@@ -23,17 +23,26 @@ packageJson.scripts = packageJson.scripts || {}
 
 // 清除旧的 dev 和 build 脚本
 Object.keys(packageJson.scripts).forEach(key => {
-  if (key.startsWith('dev:') || key.startsWith('build:')) {
+  if (
+    key.startsWith('dev:') ||
+    key.startsWith('build:') ||
+    key.startsWith('lint:') ||
+    key.startsWith('format:') ||
+    key.startsWith('predev:')
+  ) {
     delete packageJson.scripts[key]
   }
 })
 
 // 添加新的脚本
 projects.forEach(project => {
-  // 移除 pkg_ 前缀，使命令更简洁
-  const projectName = project
-  packageJson.scripts[`dev:${projectName}`] = `pnpm --filter ${project} dev`
-  packageJson.scripts[`build:${projectName}`] = `pnpm --filter ${project} build`
+  packageJson.scripts[`lint:${project}`] =
+    `eslint "packages/${project}/**/*.{vue,js,jsx,ts,tsx}" --fix`
+  packageJson.scripts[`format:${project}`] =
+    `prettier --write "packages/${project}**/*.{vue,ts,tsx,js,jsx,json,md}"`
+  packageJson.scripts[`predev:${project}`] = `pnpm lint:${project} && pnpm format:${project}`
+  packageJson.scripts[`dev:${project}`] = `pnpm --filter ${project} dev`
+  packageJson.scripts[`build:${project}`] = `pnpm --filter ${project} build`
 })
 
 // 写回 package.json

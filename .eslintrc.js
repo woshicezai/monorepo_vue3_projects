@@ -17,7 +17,7 @@ module.exports = {
     ecmaVersion: 2021,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier', 'zcj'],
   rules: {
     'prettier/prettier': 'error',
     'vue/multi-word-component-names': 'off',
