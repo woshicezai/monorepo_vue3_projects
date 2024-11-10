@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div>列表总数据大小: {{ listSize }} M</div>
+    <div>列表总数据长度: {{ list.length }}</div>
     <vxe-toolbar>
       <template #buttons>
         <vxe-button @click="hideColEvent('id')">隐藏id</vxe-button>
@@ -11,6 +13,7 @@
       ref="xTable"
       border
       height="600"
+      :row-style="rowStyle"
       :column-config="{ resizable: true }"
       :row-config="{ isHover: true }"
       :data="list"
@@ -21,7 +24,7 @@
       }"
       @scroll="handleScroll"
     >
-      <vxe-column type="seq" width="60" fixed="left"></vxe-column>
+      <vxe-column type="seq" title="序号" width="60" fixed="left"></vxe-column>
       <vxe-column field="id" title="id" width="300"></vxe-column>
       <vxe-column field="name" title="name" width="300"></vxe-column>
       <vxe-column field="price" title="price" width="300"></vxe-column>
@@ -32,10 +35,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import { debounce } from 'lodash-es'
 import { createWebSocket } from '@root/utils/websocket/index.ts'
-
+import { getObjectSize } from '@root/utils/getObjectSize.ts'
 const xTable = ref(null)
 const isLoading = ref(false)
 const perPage = 100
@@ -43,8 +46,26 @@ const page = ref(0)
 const list = ref([])
 const loadTriggerDistance = 1000
 
-const filterList = Array.from({ length: 1000 }, () => Math.floor(Math.random() * 1000))
+const filterList = Array.from({ length: 300000 }, () => Math.floor(Math.random() * 300000))
 const wsList = ref([])
+
+const listSize = ref(0)
+
+watch(
+  list,
+  () => {
+    listSize.value = (getObjectSize(list.value) / 1024 / 1024).toFixed(2)
+  },
+  {
+    deep: true,
+  }
+)
+
+onMounted(async () => {
+  initWebSocket()
+  list.value = await fetchData(page.value, perPage)
+  page.value += 1
+})
 
 const initWebSocket = () => {
   const ws = createWebSocket({
@@ -78,19 +99,15 @@ const handleWsData = data => {
   wsList.value.forEach(wsItem => {
     const foundIndex = list.value.findIndex(item => item.id === wsItem.id)
     if (foundIndex !== -1) {
+      wsItem.isUpdate = true
       list.value[foundIndex] = wsItem
     } else {
+      wsItem.isNew = true
       list.value.push(wsItem)
     }
   })
   list.value.sort((a, b) => a.amount - b.amount)
 }
-
-onMounted(async () => {
-  initWebSocket()
-  list.value = await fetchData(page.value, perPage)
-  page.value += 1
-})
 
 const fetchMore = async event => {
   if (event.type === 'body' && !isLoading.value) {
@@ -141,4 +158,43 @@ const showColEvent = field => {
 const resetColEvent = () => {
   xTable.value.resetColumn()
 }
+
+const rowStyle = ({ row }) => {
+  if (row.isUpdate) {
+    setTimeout(() => {
+      row.isUpdate = false
+    }, 1000)
+    return {
+      animation: 'fadeOutYellow 1s ease-out',
+    }
+  }
+  if (row.isNew) {
+    setTimeout(() => {
+      row.isNew = false
+    }, 1000)
+    return {
+      animation: 'fadeOutGreen 1s ease-out',
+    }
+  }
+}
 </script>
+
+<style lang="scss">
+@keyframes fadeOutGreen {
+  0% {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes fadeOutYellow {
+  0% {
+    background-color: rgba(255, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+</style>
