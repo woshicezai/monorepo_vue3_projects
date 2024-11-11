@@ -17,12 +17,12 @@ import { ref, onMounted } from 'vue'
 import VirtualList from '@root/components/VirtualList/index.vue'
 import { createWebSocket } from '@root/utils/websocket/index.ts'
 
-const filterList = Array.from({ length: 1000 }, () => Math.floor(Math.random() * 1000))
+const filterList = Array.from({ length: 300000 }, () => Math.floor(Math.random() * 300000))
 const wsList = ref([])
 const virtualListRef = ref(null)
 const columns = ref([
-  { key: 'seq', title: '序号', fixed: false, width: 100 },
-  { key: 'id', title: 'id', fixed: false, width: 100 },
+  { key: 'seq', title: '序号', fixed: true, width: 200 },
+  { key: 'id', title: 'id', fixed: true, width: 200 },
   { key: 'name', title: '名称', fixed: false, width: 100 },
   { key: 'price', title: '现价', fixed: false, width: 100 },
   { key: 'change', title: '涨跌', fixed: false, width: 100 },

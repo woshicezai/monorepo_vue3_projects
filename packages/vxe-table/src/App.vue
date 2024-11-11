@@ -11,12 +11,13 @@
     </vxe-toolbar>
     <vxe-table
       ref="xTable"
+      show-overflow
       border
       height="600"
+      :data="list"
       :row-style="rowStyle"
       :column-config="{ resizable: true }"
       :row-config="{ isHover: true }"
-      :data="list"
       :scroll-y="{
         enabled: true,
         gt: 200,
@@ -24,7 +25,7 @@
       }"
       @scroll="handleScroll"
     >
-      <vxe-column type="seq" title="序号" width="60" fixed="left"></vxe-column>
+      <vxe-column type="seq" title="序号" width="60"></vxe-column>
       <vxe-column field="id" title="id" width="300"></vxe-column>
       <vxe-column field="name" title="name" width="300"></vxe-column>
       <vxe-column field="price" title="price" width="300"></vxe-column>
@@ -51,6 +52,8 @@ const wsList = ref([])
 
 const listSize = ref(0)
 
+let preScrollTop = 0
+
 watch(
   list,
   () => {
@@ -65,6 +68,18 @@ onMounted(async () => {
   initWebSocket()
   list.value = await fetchData(page.value, perPage)
   page.value += 1
+
+  // 监听页面可见性变化
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      console.log('zhouce 页面隐藏了')
+      const { scrollTop } = xTable.value.getScroll()
+      preScrollTop = scrollTop
+    } else {
+      console.log('zhouce 页面可见了')
+      xTable.value.scrollTo(0, preScrollTop)
+    }
+  })
 })
 
 const initWebSocket = () => {
